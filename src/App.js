@@ -1,39 +1,51 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  data = {
+    "Ivel Z3": {
+      manufacturer: "Ivasim",
+      year: 1969,
+      origin: "Croatia"
+    },
+    "Bally Astrocade": {
+      manufacturer: "Bally Consumer Products",
+      year: 1977,
+      origin: "USA"
+    },
+    "Sord M200 Smart Home Computer": {
+      manufacturer: "Sord Computer Corporation",
+      year: 1971,
+      origin: "Japan"
+    },
+    "Commodore 64": {
+      manufacturer: "Commodore",
+      year: 1982,
+      origin: "USA"
+    }
+  }
+
+  renderData = () => {
+    return Object
+      .keys(this.data)
+      .map((key) => {
+        const year = (this.data[key].year)
+        const content = `${key} (${year})`
+        return <option key={key} value={key}>{content}</option>
+      })
+  }
+
   render() {
     return (
       <div className="App">
         <div>
-          {data["Bally Astrocade"].manufacturer}
+          <select>
+            <option value=''>-- pick a model --</option>
+            {this.renderData()}
+          </select>
         </div>
       </div>
     );
-  }
-}
-
-const data = {
-  "Ivel Z3": {
-    manufacturer: "Ivasim",
-    year: 1969,
-    origin: "Croatia"
-  },
-  "Bally Astrocade": {
-    manufacturer: "Bally Consumer Products",
-    year: 1977,
-    origin: "USA"
-  },
-  "Sord M200 Smart Home Computer": {
-    manufacturer: "Sord Computer Corporation",
-    year: 1971,
-    origin: "Japan"
-  },
-  "Commodore 64": {
-    manufacturer: "Commodore",
-    year: 1982,
-    origin: "USA"
   }
 }
 
