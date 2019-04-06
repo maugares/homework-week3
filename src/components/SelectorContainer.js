@@ -1,6 +1,7 @@
 import React from 'react'
 import Selector from './Selector';
 import { connect } from 'react-redux';
+import { updateSelection } from '../actions/updateSelection'
 
 class SelectorContainer extends React.Component {
     state = {
@@ -30,11 +31,22 @@ class SelectorContainer extends React.Component {
         }
     }
 
+    updateSelection = (event) => {
+        this.setState({
+            model: event.target.value
+        })
+        // console.log(this.data[event.target.value])
+    }
+
     render() {
-        return (<selector>
-            <option key="default" value="">-- pick a model --</option>
-            <Selector list={this.data} />
-        </selector>)
+        return (
+            <form onChange={this.updateSelection}>
+                <select onChange={updateSelection}>
+                    <option key="default" value="">-- pick a model --</option>
+                    <Selector list={this.data} />
+                </select>
+            </form>
+        )
     }
 }
 
@@ -44,6 +56,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect()(SelectorContainer)
+export default connect(mapStateToProps, { updateSelection })(SelectorContainer)
 
 
