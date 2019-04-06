@@ -1,11 +1,12 @@
 import React from 'react'
 import Selector from './Selector';
 import { connect } from 'react-redux';
-import { updateSelection } from '../actions/updateSelection'
+// import { updateSelection } from '../actions/updateSelection'
 
 class SelectorContainer extends React.Component {
     state = {
-        model: ""
+        model: "",
+        data: "",
     }
 
     data = {
@@ -31,17 +32,32 @@ class SelectorContainer extends React.Component {
         }
     }
 
-    updateSelection = (event) => {
+    updateLocalState = (event) => {
         this.setState({
-            model: event.target.value
+            model: event.target.value,
+            data: this.data[event.target.value],
         })
-        // console.log(this.data[event.target.value])
+    }
+
+    updateSelection = (event) => {
+        this.props.dispatch({
+            type: 'UPDATE_SELECTION',
+            payload: {
+                model: event.target.value,
+                data: this.data[event.target.value],
+            }
+        })
+    }
+
+    update = (event) => {
+        this.updateLocalState(event)
+        this.updateSelection(event)
     }
 
     render() {
         return (
-            <form onChange={this.updateSelection}>
-                <select onChange={updateSelection}>
+            <form onChange={this.update}>
+                <select>
                     <option key="default" value="">-- pick a model --</option>
                     <Selector list={this.data} />
                 </select>
@@ -52,10 +68,12 @@ class SelectorContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        model: state.model
+        model: state.model,
+        data: state.data
     }
 }
 
-export default connect(mapStateToProps, { updateSelection })(SelectorContainer)
+export default connect(mapStateToProps)(SelectorContainer)
+
 
 
